@@ -2,7 +2,6 @@ import { useEffect, useReducer } from 'react'
 import {authManager}from './config/context/auth-manager'
 import AuthContext from './config/context/auth-context';
 import AppRouter from './router/AppRouter';
-import './output.css';
 
 
 const init = ()=>JSON.parse(localStorage.getItem('user'))||{signed: false};

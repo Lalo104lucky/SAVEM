@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
 import * as yup from "yup";
 import { useFormik } from "formik";
-import ImagenLogo from "../../assets/img/imgLogin.jpg";
+import ImagenLogo from "../../assets/img/imgLogin.png";
 import { ProgressSpinner } from "primereact/progressspinner";
 import { Password } from "primereact/password";
 import { InputText } from "primereact/inputtext";
@@ -56,7 +56,7 @@ const SignInPage = () => {
 
     return (
         <div className="fondo h-screen flex item-center justify-center">
-            <div className="shadow-lg rounded-lg flex items-center w-96 mx-auto">
+            <div className=" rounded-lg flex items-center w-full mx-auto">
                 
                 <div
                     className="w-1/2 p-10 bg-white rounded-lg"
