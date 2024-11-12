@@ -2,8 +2,12 @@
 module.exports = {
   content: ["./src/**/*.{html,js}", 
       "./node_modules/flowbite/**/*.js"],
-  theme: {
-    extend: {},
-  },
+      theme: {
+        extend: {
+          fontFamily: {
+            quicksand: ['Quicksand', 'sans-serif'],
+          },
+        },
+      },
   plugins: [require('flowbite/plugin')],
 }
