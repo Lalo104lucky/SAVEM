@@ -8,10 +8,9 @@ import Profile from "../module/admin/Profile";
 import ForgotPasswordPage from "../module/auth/ForgotPasswordPage";
 import ResetPasswordPage from "../module/auth/ResetPasswordPage";
 import Workers from "../module/admin/Workers";
-
 const AppRouter = () => {
     const { user } = useContext(AuthContext);
-    
+
 
     return (
         <BrowserRouter>
@@ -24,7 +23,9 @@ const AppRouter = () => {
                         <Route path="*" element={<AdminLayout />}>
                             <Route path="home" element={<Home />} />
                             <Route path="profile" element={<Profile />} />
+
                             <Route path="workers" element={<Workers />} />
+
                         </Route>
                     )
                 ) : (

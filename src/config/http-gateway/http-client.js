@@ -4,7 +4,7 @@ const SERVER_URL = import.meta.env.VITE_APP_SERVER_URL;
 
 const AxiosClient = axios.create({
     baseURL: SERVER_URL,
-    withCredentials:true,
+    withCredentials:false,
 });
 
   const requestHandler = (request)=>{
