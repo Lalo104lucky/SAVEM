@@ -8,6 +8,36 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --bg-color: #ffffff;
+  --text-color: #000000;
+  --scroll-bg: #e0e0e0; /* Fondo del scrollbar */
+  --scroll-thumb: #c0c0c0; /* Color del thumb (deslizador) */
+}
+html.dark {
+  --bg-color: #121212;
+  --text-color: #ffffff;
+  --scroll-bg: #333333; /* Fondo del scrollbar en modo oscuro */
+  --scroll-thumb: #777777; /* Color del thumb en modo oscuro */
+}
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+html.dark input:-webkit-autofill,
+html.dark input:-webkit-autofill:hover,
+html.dark input:-webkit-autofill:focus {
+  -webkit-text-fill-color: #ffffff !important; /* Texto blanco */
+  -webkit-box-shadow: 0 0 0px 1000px #1e1e2f inset !important; /* Fondo oscuro */
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+html.dark .custom-Dark {
+  color: #000000;
+}
+
 .custom-blue {
   color: #3F54D1;
 }
@@ -36,16 +66,49 @@
   background-color: #3F54D1;
 }
 
+.hover-bg-custom-blueEdit:hover {
+  background-color: #3F54D1;
+}
+
 .bg-custom-bluepoint {
   background-color: #5280E2;
+}
+
+/* Modo oscuro */
+html.dark .bg-custom-blueDark {
+  background-color: #9a9eff;
+}
+
+html.dark .bg-custom-AddDark {
+  background-color: #8a8de6;
+}
+
+html.dark .hover-bg-custom-AddDark:hover {
+  background-color: #7577c2;
+}
+
+html.dark .custom-blueDark {
+  color: #9a9eff;
+}
+
+html.dark .bg-custom-Dark {
+  background-color: #000000;
 }
 
 .hover-bg-custom-bluepoint:hover {
   background-color: #5280E2; 
 }
 
+html.dark .bg-custom-bluepointDark {
+  background-color: #4165b4;
+}
+
 .hover-bg-customcyan:hover {
   background-color: #17cdcc; 
+}
+
+html.dark .hover-bg-custom-bluepointDark:hover {
+  background-color: #4165b4;
 }
 
 .hover-bg-custom-blueWhite:hover {
@@ -68,6 +131,34 @@
 
 .bg-custom-cyan {
   background-color: #15CDCB;
+}
+
+.bg-custom-edit {
+  background-color: #FDE457;
+}
+
+.hover-bg-custom-edit:hover {
+  background-color: #e7d04f;
+}
+
+html.dark .bg-custom-editDark {
+  background-color: #e7d04f;
+}
+
+html.dark .hover-bg-custom-editDark:hover {
+  background-color: #b8a63f;
+}
+
+html.dark .bg-custom-cyanDark {
+  background-color: #14b8b6;
+}
+
+.hover-bg-custom-cyanBlack:hover {
+  background-color: #15b6b3;
+}
+
+html.dark .hover-bg-custom-cyanDark:hover {
+  background-color: #0f8e8c;
 }
 
 .hover-bg-custom-cyan:hover {
@@ -98,6 +189,11 @@
   border-bottom-color: #3F54D1; /* Cambia el borde inferior al color deseado */
   outline: none; /* Quita el borde azul por defecto */
 }
+
+html.dark .custom-border-bottomDark {
+  border-bottom: 2px solid #9a9eff;
+}
+
 
 .custom-alert-success {
   border-radius: 10px;
@@ -174,19 +270,38 @@
   border-radius: 5px;
   cursor: pointer;
   background-color: #C3FFC7;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.05);
   width: 75px;
 }
 
 .status-btn.active {
   color: green;
   background-color:#daf9ee;
+  border-bottom: 2px solid green;
  }
 
 
 .status-btn.inactive {
   color: #A2160F;
   background-color: #fee5ec;
+  border-bottom: 2px solid red;
+}
+
+html.dark .status-btn {
+  background-color: #2c2c2c; /* Cambiar fondo predeterminado */
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.2); /* Ajustar sombra */
+}
+
+html.dark .status-btn.active {
+  color: #4ade80; /* Verde más claro para modo oscuro */
+  background-color: #044c29;
+  border-bottom: 2px solid #4ade80;
+}
+
+html.dark .status-btn.inactive {
+  color: #f87171; /* Rojo claro para modo oscuro */
+  background-color: #4b1a2f;
+  border-bottom: 2px solid #f87171;
 }
 
 tbody tr:hover {

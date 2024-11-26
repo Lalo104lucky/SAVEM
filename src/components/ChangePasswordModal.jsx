@@ -1,202 +1,260 @@
-import React, { useEffect, useState } from 'react'
-import { useFormik } from 'formik'
-import * as Yup from 'yup'
-import AxiosClient from '../../config/http-gateway/http-client'
-import Swal from 'sweetalert2'
+import React, { useEffect, useState } from 'react';
+import { useFormik } from 'formik';
+import * as yup from 'yup';
+import Swal from 'sweetalert2';
+import AxiosClient from '../config/http-gateway/http-client';
+import Close from '../assets/close.svg'
+import Pass from '../assets/pass.svg';
+import PassPro from '../assets/passPro.svg';
+import Eye from '../assets/eye.svg'
+import EyePro from '../assets/eyePro.svg'
+import EyeN from '../assets/eye_n.svg'
+import EyeNPro from '../assets/eye_nPro.svg'
+import ClosePro from '../assets/closePro.svg'
+import { alertaExito, alertaError, alertaCargando, alertaPregunta } from '../config/alert/alert';
 
-const ChangePasswordModal = ({ showPasswordModal, dataWorker, closeModal }) => {
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+function ChangePasswordModal({ showModalAdd, handleCerrarModalAdd }) {
+  const isDarkMode = document.documentElement.classList.contains('dark');
 
-  console.log(dataWorker);
-  const handleCloseModal = () => {
-    closeModal();
+  const [showPassword, setShowPassword] = useState({
+    password: false,
+    newpassword: false,
+    confirmPassword: false,
+  });
+
+  // Función para alternar la visibilidad de un campo específico
+  const togglePasswordVisibility = (field) => {
+    setShowPassword((prevState) => ({
+      ...prevState,
+      [field]: !prevState[field],
+    }));
   };
+
   const formik = useFormik({
     initialValues: {
-      password: "",
-      confirmPassword: "",
+      password: '',
+      newpassword: '',
+      confirmPassword: '',
     },
-    validationSchema: Yup.object({
-      password: Yup.string()
-        .min(8, "La contraseña debe tener al menos 8 caracteres")
-        .required("Campo obligatorio"),
-      confirmPassword: Yup.string()
-        .oneOf([Yup.ref("password"), null], "Las contraseñas deben coincidir")
-        .required("Campo obligatorio"),
+    validationSchema: yup.object({
+      password: yup.string()
+        .min(8, 'La contraseña debe tener al menos 8 caracteres')
+        .required('Campo obligatorio'),
+      newpassword: yup.string()
+        .min(8, 'La contraseña debe tener al menos 8 caracteres')
+        .required('Campo obligatorio'),
+      confirmPassword: yup.string()
+        .oneOf([yup.ref('newpassword'), null], 'Las contraseñas deben coincidir')
+        .required('Campo obligatorio'),
     }),
-    onSubmit: async (values) => {
-      const confirmSave = await Swal.fire({
-        title: "¿Estás seguro?",
-        text: "¿Deseas cambiar la contraseña del trabajador?",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#d33",
-        cancelButtonColor: "#3085d6",
-        confirmButtonText: "Sí, cambiar contraseña",
-        cancelButtonText: "Cancelar",
-      });
+    onSubmit: (values) => {
+      alertaPregunta(
+        '¿Estás seguro?',
+        '¿Está seguro de actualizar la contraseña?',
+        async () => {
+          try {
+            const payload = {
+              nombre: values.nombre,
+              correo: values.correo,
+              rfc: values.rfc,
+              genero: values.genero,
+            };
 
-      if (confirmSave.isConfirmed) {
-        try {
-          const payload = {
-            id_user: dataWorker.id_user,
-            email: dataWorker.email,
-            password: values.password,
-            persons: {
-              name: dataWorker.persons.name,
-              lastname: dataWorker.persons.lastname,
-              email: dataWorker.persons.email,
-              address: "",
-            },
-          };
+            console.log(payload);
+            const response = await AxiosClient({
+              url: "/inventory/",
+              method: "POST",
+              data: payload,
+            });
 
-          console.log("Datos", payload);
-          const response = await AxiosClient({
-            url: "/users/",
-            method: "PUT",
-            data: payload,
-          });
+            alertaExito('Exito', 'Se actualizó correctamente la contraseña del usuario');
 
-          Swal.fire({
-            icon: "success",
-            title: "¡Contraseña actualizada!",
-            text: "La contraseña del trabajador ha sido actualizada correctamente.",
-          });
-
-          console.log("Datos:", response);
-          closeModal();
-        } catch (error) {
-          console.log(values);
-          console.error("Error:", error);
-          Swal.fire({
-            icon: "error",
-            title: "Error al actualizar contraseña",
-            text: "Hubo un error al cambiar la contraseña del trabajador. Por favor, inténtalo de nuevo más tarde.",
-          });
+            refreshInventary();
+            console.log(response.data);
+            handleCerrarModalAdd();
+          } catch (error) {
+            console.error("Error:", error);
+            alertaError('Error', 'Error al actualizar la contraseña del usuario');
+          }
+        },
+        () => {
+          console.log("Operación cancelada por el usuario");
         }
-      }
+      );
     },
   });
 
+
+  const handleClear = () => {
+    formik.resetForm();
+  };
+
   useEffect(() => {
-    if (!showPasswordModal) {
+    if (!showModalAdd) {
       formik.resetForm();
     }
-  }, [showPasswordModal]);
+  }, [showModalAdd]);
+
+
+
   return (
-    showPasswordModal && (
-      <div className="fixed inset-0 z-40 bg-black bg-opacity-25 flex justify-center items-center overflow-auto">
-        <div
-          id="authentication-modal"
-          className="relative bg-white rounded-lg shadow dark:bg-gray-700 w-full max-w-md"
+    <div>
+      {showModalAdd && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center"
+          style={{
+            backgroundColor: "rgba(0, 0, 0, 0.5)", // Fondo negro con opacidad del 50%
+          }}
         >
-          <div className="p-8 md:p-4">
-            <div className="grid justify-end">
-              <button
-                onClick={handleCloseModal}
-                type="button"
-                className=" text-sm font-medium text-end text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-              >
-                <i className="fa-solid fa-xmark"></i>
-              </button>
-            </div>
-            <form onSubmit={formik.handleSubmit}>
-              <p className="font-bold text-2xl  text-center text-red-800 mb-3">
-                Actualizar Contraseña
-              </p>
-              <div>
-                <div className="mb-2 relative">
-                  <label
-                    htmlFor="password"
-                    className="block mb-1 text-ms font-normal text-gray-900 dark:text-white"
-                  >
-                    Contraseña
-                  </label>
+          <div
+            id="authentication-modal"
+            className="relative bg-white rounded-lg shadow-lg dark:bg-gray-900 w-full max-w-md mx-auto"
+            style={{
+              maxHeight: "80vh", // Altura máxima del modal
+              overflowY: "auto", // Scroll vertical cuando el contenido exceda la altura
+            }}
+          >
+            <div className="px-6 py-4"
+              style={{
+                overflowY: "auto", // Scroll vertical en el contenido interno
+                maxHeight: "80vh", // Asegura que el scroll esté limitado
+              }}
+            >
+              <div className="flex justify-end">
+                <button
+                  onClick={handleCerrarModalAdd}
+                  type="button"
+                  className="text-sm font-medium text-gray-900 rounded-lg"
+                >
+                  <img src={isDarkMode ? ClosePro : Close} alt="Cerrar" className='w-6 h-6 hover:bg-gray-100 rounded-lg dark:hover:bg-gray-800' />
+                </button>
+              </div>
+
+              <h1 className="font-semibold text-xl text-start font-quicksand text-black mb-6">Cambiar Contraseña</h1>
+
+              <form onSubmit={formik.handleSubmit} className='space-y-4'>
+
+                <div className="relative mb-2">
+                  <label type="base-input" className="block mb-2 text-sm font-quicksand custom-blue font-medium text-gray-900 dark:text-white">Anterior:</label>
+                  <div className="absolute mt-7 inset-y-0 start-0 flex items-center ps-2.5 pointer-events-none">
+                    <img src={isDarkMode ? PassPro : Pass} alt="" />
+                  </div>
                   <input
-                    type={showPassword ? "text" : "password"}
+                    type={showPassword.password ? "text" : "password"}
                     id="password"
                     name="password"
-                    className={`effect-shadow-input bg-gray-50 border ${
-                      formik.touched.password && formik.errors.password
-                        ? "border-red-500"
-                        : "border-gray-300"
-                    } text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
-                    value={formik.values.password}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
+                    value={formik.values.password}
+                    required
+                    className="bg-custom-bluelight border-t-0 border-x-0 text-gray-900 text-sm rounded-lg focus:ring-0 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:placeholder-gray-400 dark:text-white custom-border-bottom custom-border-bottomDark"
+                    placeholder="Contraseña actual"
                   />
                   <button
                     type="button"
-                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
-                    onClick={() => setShowPassword((prev) => !prev)}
+                    onClick={() => togglePasswordVisibility('password')}
+                    className="absolute pe-3 end-0 flex items-center text-gray-500"
+                    style={{ top: '3rem', transform: 'translateY(-50%)' }}
                   >
-                    <i
-                      className={`fas ${
-                        showPassword ? "fa-eye-slash" : "fa-eye"
-                      } text-red-800`}
-                    ></i>
+                    {showPassword.password ? <img src={isDarkMode ? EyePro : Eye} alt="Mostrar contraseña" /> : <img src={isDarkMode ? EyeNPro : EyeN} alt="Ocultar contraseña" />}
                   </button>
-                  {formik.touched.password && formik.errors.password && (
-                    <div className="grid justify-items-end text-red-500 text-sm mt-2">
-                      {formik.errors.password}
-                    </div>
-                  )}
                 </div>
-                <div className="mb-2 relative">
-                  <label
-                    htmlFor="confirmPassword"
-                    className="block mb-1 text-ms font-normal text-gray-900 dark:text-white"
-                  >
-                    Confirmar Contraseña
-                  </label>
+
+                {formik.touched.password && formik.errors.password ? (
+                  <div className="text-red-600 text-sm font-quicksand dark:text-red-500">{formik.errors.password}</div>
+                ) : null}
+
+                <div className="relative mb-2">
+                  <label type="base-input" className="block mb-2 text-sm font-quicksand custom-blue font-medium text-gray-900 dark:text-white">Nueva:</label>
+                  <div className="absolute mt-7 inset-y-0 start-0 flex items-center ps-2.5 pointer-events-none">
+                    <img src={isDarkMode ? PassPro : Pass} alt="" />
+                  </div>
                   <input
-                    type={showConfirmPassword ? "text" : "password"}
+                    type={showPassword.newpassword ? "text" : "password"}
+                    id="newpassword"
+                    name="newpassword"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.newpassword}
+                    required
+                    className="bg-custom-bluelight border-t-0 border-x-0 text-gray-900 text-sm rounded-lg focus:ring-0 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:placeholder-gray-400 dark:text-white custom-border-bottom custom-border-bottomDark"
+                    placeholder="Nueva contraseña"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => togglePasswordVisibility('newpassword')}
+                    className="absolute pe-3 end-0 flex items-center text-gray-500"
+                    style={{ top: '3rem', transform: 'translateY(-50%)' }}
+                  >
+                    {showPassword.newpassword ? <img src={isDarkMode ? EyePro : Eye} alt="Mostrar contraseña" /> : <img src={isDarkMode ? EyeNPro : EyeN} alt="Ocultar contraseña" />}
+                  </button>
+                </div>
+
+                {formik.touched.newpassword && formik.errors.newpassword ? (
+                  <div className="text-red-600 text-sm font-quicksand dark:text-red-500">{formik.errors.newpassword}</div>
+                ) : null}
+
+                <div className="relative mb-2">
+                  <label type="base-input" className="block mb-2 text-sm font-quicksand custom-blue font-medium text-gray-900 dark:text-white">Confirmar:</label>
+                  <div className="absolute mt-7 inset-y-0 start-0 flex items-center ps-2.5 pointer-events-none">
+                    <img src={isDarkMode ? PassPro : Pass} alt="" />
+                  </div>
+                  <input
+                    type={showPassword.confirmPassword ? "text" : "password"}
                     id="confirmPassword"
                     name="confirmPassword"
-                    className={`effect-shadow-input bg-gray-50 border ${
-                      formik.touched.confirmPassword &&
-                      formik.errors.confirmPassword
-                        ? "border-red-500"
-                        : "border-gray-300"
-                    } text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-10 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
-                    value={formik.values.confirmPassword}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
+                    value={formik.values.confirmPassword}
+                    required
+                    className="bg-custom-bluelight border-t-0 border-x-0 text-gray-900 text-sm rounded-lg focus:ring-0 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:placeholder-gray-400 dark:text-white custom-border-bottom custom-border-bottomDark"
+                    placeholder="Confirmar contraseña"
                   />
                   <button
                     type="button"
-                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 "
-                    onClick={() => setShowConfirmPassword((prev) => !prev)}
+                    onClick={() => togglePasswordVisibility('confirmPassword')}
+                    className="absolute pe-3 end-0 flex items-center text-gray-500"
+                    style={{ top: '3rem', transform: 'translateY(-50%)' }}
                   >
-                    <i
-                      className={`fas ${
-                        showConfirmPassword ? "fa-eye-slash" : "fa-eye"
-                      } text-red-800`}
-                    ></i>
+                    {showPassword.confirmPassword ? <img src={isDarkMode ? EyePro : Eye} alt="Mostrar contraseña" /> : <img src={isDarkMode ? EyeNPro : EyeN} alt="Ocultar contraseña" />}
                   </button>
-                  {formik.touched.confirmPassword &&
-                    formik.errors.confirmPassword && (
-                      <div className="grid justify-items-end text-red-500 text-sm mt-2">
-                        {formik.errors.confirmPassword}
-                      </div>
-                    )}
                 </div>
-                <div className="grid justify-items-end mt-4">
+
+                {formik.touched.confirmPassword && formik.errors.confirmPassword ? (
+                  <div className="text-red-600 text-sm font-quicksand dark:text-red-500">{formik.errors.confirmPassword}</div>
+                ) : null}
+
+                <div className="flex justify-between items-center mt-4">
                   <button
-                    type="submit"
-                    className="w-2/5 focus:outline-none text-white bg-red hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+                    type="button"
+                    onClick={handleClear}
+                    className="text-gray-500 hover:text-gray-700 hover:bg-gray-100 font-quicksand font-medium rounded-lg text-sm px-5 py-2.5 dark:text-white dark:hover:bg-gray-800"
                   >
-                    Guardar
+                    Limpiar
                   </button>
+
+                  <div className="flex gap-4">
+                    <button
+                      type="button"
+                      onClick={handleCerrarModalAdd}
+                      className="text-gray-500 hover:text-gray-700 hover:bg-gray-100 font-quicksand font-medium rounded-lg text-sm px-5 py-2.5 dark:text-white dark:hover:bg-gray-800"
+                    >
+                      Cancelar
+                    </button>
+                    <button
+                      type="submit"
+                      className="text-white bg-custom-cyan hover-bg-custom-cyanBlack focus:ring-1 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-5 py-2.5 bg-custom-cyanDark hover-bg-custom-cyanDark"
+                    >
+                      Guardar
+                    </button>
+                  </div>
                 </div>
-              </div>
-            </form>
+              </form>
+            </div>
           </div>
         </div>
-      </div>
-    )
-  )
+      )}
+    </div>
+  );
 }
 
 export default ChangePasswordModal

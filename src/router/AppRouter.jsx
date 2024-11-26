@@ -4,9 +4,7 @@ import SignInPage from "../module/auth/SignInPage";
 import AuthContext from "../config/context/auth-context";
 import AdminLayout from "../module/admin/AdminLayout";
 import UserLayout from "../module/user/UserLayout";
-import Home from "../module/admin/Home";
 import HomeUser from "../module/user/HomeUser";
-import Profile from "../module/admin/Profile";
 import ForgotPasswordPage from "../module/auth/ForgotPasswordPage";
 import ResetPasswordPage from "../module/auth/ResetPasswordPage";
 import Workers from "../module/admin/Workers";
@@ -27,8 +25,6 @@ const AppRouter = () => {
                 {user?.signed ? (
                     user?.roles.role === "ADMIN" ? (
                         <Route path="*" element={<AdminLayout />}>
-                            <Route path="home" element={<Home />} />
-                            <Route path="profile" element={<Profile />} />
                             <Route path="workers" element={<Workers />} />
                             <Route path="medicamentos" element={<MedicamentosAdmin />} />
                             <Route path="ventas" element={<VentasAdmin />} />

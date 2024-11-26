@@ -48,7 +48,7 @@ const SignInPage = () => {
                     });
                     //Alerta
                     alertaExito('Éxito','Se inició sesión correctamente');
-                    navigate("/workers", { replace: true });
+                    navigate("/medicamentos", { replace: true });
                 } else if (response.data.roles.role === "USER") {
                     dispatch({
                         type: "SIGNIN",

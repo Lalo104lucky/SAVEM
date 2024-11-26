@@ -21,84 +21,77 @@ import KeyMPro from '../assets/key_mediPro.svg';
 import CodeMPro from '../assets/code_mediPro.svg';
 import { alertaExito, alertaError, alertaCargando, alertaPregunta } from '../config/alert/alert';
 
-function AddMedicamento({ showModalAdd, handleCerrarModalAdd, handleImageUpload,
-  refreshInventary }) {
-
-  const [fileName, setFileName] = useState("");
-  const isDarkMode = document.documentElement.classList.contains('dark');
+const EditMedicamento = ({ showModalEdit,
+  selectedMedicamento,
+  setShowEditCutModal,
+  setShowOffcanvas,
+  refreshInventary,
+  refresh, }) => {
+  const openOffcanvas = () => {
+    setShowOffcanvas(true);
+    refreshInventary();
+  };
+  const isDarkMode = document.documentElement.classList.contains("dark");
 
   const formik = useFormik({
     initialValues: {
-      nombre: '',
-      marca: '',
-      precio: '',
-      existencia: '',
-      image: '',
-      fecha: '',
-      clave: '',
-      categoria: '',
-      prescripcion: '',
-      codigo: '',
-      description: ''
+      nombre: selectedMedicamento?.name || "",
+      marca: selectedMedicamento?.marca || "",
+      precio: selectedMedicamento?.price || 0, // Asegúrate de que sea 0 si no llega el precio
+      existencia: selectedMedicamento?.stock || 0, // 0 para existencia si no se recibe valor
+      image: selectedMedicamento?.image || "", // Valor vacío si no llega imagen
+      fecha: selectedMedicamento?.date || "", // Vacío para fecha si no hay valor
+      clave: selectedMedicamento?.clave || "", // Vacío para clave
+      categoria: selectedMedicamento?.categoria || "", // Vacío si no hay categoría
+      prescripcion: selectedMedicamento?.tipo || "", // Vacío si no hay prescripción
+      codigo: selectedMedicamento?.codigo || "", // Vacío si no hay código
+      description: selectedMedicamento?.description || "", // Vacío para descripción
     },
     validationSchema: yup.object({
-      nombre: yup.string()
-        .max(50, 'No debe exceder los 50 caracteres')
-        .required('Campo obligatorio'),
-      marca: yup.string()
-        .max(50, 'No debe exceder los 50 caracteres')
-        .required('Campo obligatorio'),
-      precio: yup.number().required('Campo Obligatorio').positive('Solo números positivos'),
-      existencia: yup.number().required('Campo Obligatorio').positive('Solo números positivos'),
-      image: yup.mixed().required('Campo Obligatorio'),
-      fecha: yup.mixed().required('Campo Obligatorio'),
-      clave: yup.mixed().required('Campo Obligatorio'),
-      codigo: yup.mixed().required('Campo Obligatorio'),
-      description: yup.string().required('Campo Obligatorio').max(200, 'No debe exceder los 200 caracteres'),
+      nombre: yup.string().max(50, "No debe exceder los 50 caracteres").required("Campo obligatorio"),
+      marca: yup.string().max(50, "No debe exceder los 50 caracteres").required("Campo obligatorio"),
+      precio: yup.number().positive("Solo números positivos").required("Campo obligatorio"),
+      existencia: yup.number().positive("Solo números positivos").required("Campo obligatorio"),
+      image: yup.mixed().required("Campo obligatorio"),
+      description: yup.string().max(200, "No debe exceder los 200 caracteres").required("Campo obligatorio"),
     }),
-    onSubmit: (values) => {
-      // Mensaje de alertaPregunta con estilos personalizados
-      alertaPregunta(
-        '¿Estás seguro?',
-        '¿Deseas agregar este Medicamento?',
-        async () => {
-          try {
-            const payload = {
-              nombre: values.nombre,
-              cost: values.precio,
-              kg: values.existencia,
-              image: values.image,
-              description: values.description,
-              orders: null
-            };
+    onSubmit: async (values) => {
+      try {
+        alertaCargando("Guardando cambios...");
+        const response = await AxiosClient({
+          url: `/medicamentos/${selectedMedicamento.id}`,
+          method: "PUT",
+          data: values,
+        });
 
-            console.log(payload);
-            const response = await AxiosClient({
-              url: "/inventory/",
-              method: "POST",
-              data: payload,
-            });
-
-            alertaExito('Nuevo Medicamento Agregado', 'El nuevo medicamento se ha guardado correctamente.');
-
-            refreshInventary();
-            console.log(response.data);
-            handleCerrarModalAdd();
-          } catch (error) {
-            console.error("Error:", error);
-            alertaError('Error al agregar el medicamento', 'Hubo un error al guardar el nuevo medicamento. Por favor, inténtalo de nuevo más tarde.');
-          }
-        },
-        () => {
-          console.log("Operación cancelada por el usuario");
-        }
-      );
+        alertaExito("¡Medicamento actualizado!", "Los cambios han sido guardados correctamente.");
+        setShowEditCutModal(false);
+        openOffcanvas();
+        refresh();
+      } catch (error) {
+        alertaError("Error al actualizar", "Hubo un problema al guardar los cambios. Inténtalo nuevamente.");
+        console.error("Error al actualizar medicamento:", error);
+      }
     },
   });
 
+  const handleCloseModal = () => {
+    // if (formik.dirty) {
+    //   alertaPregunta("¿Descartar cambios?", "Los cambios no guardados se perderán.")
+    //     .then((result) => {
+    //       if (result.isConfirmed) {
+    //         formik.resetForm();
+    //         setShowEditCutModal(false);
+    //         setShowOffcanvas(true);
+    //       }
+    //     });
+    // } else {
+    //   setShowEditCutModal(false);
+    //   setShowOffcanvas(true);
+    // }
+    setShowEditCutModal(false);
+    setShowOffcanvas(true);
 
-  const handleClear = () => {
-    formik.resetForm();
   };
 
   const handleChangeAvatar = (event) => {
@@ -138,16 +131,13 @@ function AddMedicamento({ showModalAdd, handleCerrarModalAdd, handleImageUpload,
 
 
   useEffect(() => {
-    if (!showModalAdd) {
-      formik.resetForm();
-    }
-  }, [showModalAdd]);
-
+    if (!showModalEdit) formik.resetForm();
+  }, [showModalEdit]);
 
 
   return (
     <div>
-      {showModalAdd && (
+      {showModalEdit && (
         <div className="fixed inset-0 z-40 flex items-center justify-center"
           style={{
             backgroundColor: "rgba(0, 0, 0, 0.5)", // Fondo negro con opacidad del 50%
@@ -169,7 +159,7 @@ function AddMedicamento({ showModalAdd, handleCerrarModalAdd, handleImageUpload,
             >
               <div className="flex justify-end">
                 <button
-                  onClick={handleCerrarModalAdd}
+                  onClick={handleCloseModal}
                   type="button"
                   className="text-sm font-medium text-gray-900 rounded-lg"
                 >
@@ -177,7 +167,7 @@ function AddMedicamento({ showModalAdd, handleCerrarModalAdd, handleImageUpload,
                 </button>
               </div>
 
-              <h1 className="font-semibold text-xl text-start font-quicksand text-black mb-6">Agregar Medicamento</h1>
+              <h1 className="font-semibold text-xl text-start font-quicksand text-black mb-6">Editar Medicamento</h1>
 
               <form onSubmit={formik.handleSubmit} className='space-y-4'>
 
@@ -405,7 +395,6 @@ function AddMedicamento({ showModalAdd, handleCerrarModalAdd, handleImageUpload,
                       name="image" // Conectar el input al name de Formik
                       type="file"
                       onChange={(event) => {
-                        // Actualizar Formik con la imagen seleccionada
                         formik.setFieldValue("image", event.target.files[0]);
                       }}
                       onBlur={formik.handleBlur} // Manejar el evento onBlur
@@ -508,19 +497,11 @@ function AddMedicamento({ showModalAdd, handleCerrarModalAdd, handleImageUpload,
                   <div className="text-red-600 text-sm font-quicksand dark:text-red-500">{formik.errors.description}</div>
                 ) : null}
 
-                <div className="flex justify-between items-center mt-4">
-                  <button
-                    type="button"
-                    onClick={handleClear}
-                    className="text-gray-500 hover:text-gray-700 hover:bg-gray-100 font-quicksand font-medium rounded-lg text-sm px-5 py-2.5 dark:text-white dark:hover:bg-gray-800"
-                  >
-                    Limpiar
-                  </button>
-
+                <div className="flex justify-center items-center mt-4">
                   <div className="flex gap-4">
                     <button
                       type="button"
-                      onClick={handleCerrarModalAdd}
+                      onClick={handleCloseModal}
                       className="text-gray-500 hover:text-gray-700 hover:bg-gray-100 font-quicksand font-medium rounded-lg text-sm px-5 py-2.5 dark:text-white dark:hover:bg-gray-800"
                     >
                       Cancelar
@@ -538,10 +519,9 @@ function AddMedicamento({ showModalAdd, handleCerrarModalAdd, handleImageUpload,
             </div>
           </div>
         </div>
-
       )}
     </div>
   );
 }
 
-export default AddMedicamento;
+export default EditMedicamento;
