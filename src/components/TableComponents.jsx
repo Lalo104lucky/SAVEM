@@ -44,7 +44,7 @@ const TableComponents = ({ handleAsignar, columns, data, PerPage }) => {
                     </tbody>
                 </table>
             </div>
-            {/* <div className="absolute inset-x-0 bottom-2 h-16 flex justify-center items-center mt-5">
+            <div className="absolute inset-x-0 bottom-2 h-16 flex justify-center items-center mt-5">
                 <div className="pagination flex items-center justify-center">
                     <button
                         onClick={() => paginate(currentPage - 1)}
@@ -77,7 +77,7 @@ const TableComponents = ({ handleAsignar, columns, data, PerPage }) => {
                         <img src={NextRight} className='w-5' />
                     </button>
                 </div>
-            </div> */}
+            </div> 
         </>
     );
 };

@@ -22,7 +22,7 @@ const TableComponentsVentasUser = ({ columns, data, PerPage }) => {
     }
 
     return (
-        <div className='flex justify-center pt-5 pl-10'>
+        <div className='flex justify-center pt-5'>
             <div className="overflow-x-auto relative rounded-lg w-full">
                 <table className="w-full text-black">
                     <thead className="text-white custom-bg-table ">

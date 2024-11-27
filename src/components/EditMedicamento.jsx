@@ -283,7 +283,6 @@ const EditMedicamento = ({ showModalEdit,
                   <label type="base-input" className="block mb-2 text-sm font-quicksand custom-blue font-medium text-gray-900 dark:text-white">Categoría:</label>
                   <div className="flex items-center mb-4">
                     <input
-                      id="patente-radio"
                       type="radio"
                       value="Patente"
                       name="categoria"

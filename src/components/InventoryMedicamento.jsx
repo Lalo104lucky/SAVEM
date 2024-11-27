@@ -1,5 +1,6 @@
 import React from 'react';
 
+
 function InventoryMedicamento({ selectedMedicamento, setShowOffcanvas, handleEditModalToggle  }) {
 
   const isLowStock = selectedMedicamento.stock < 51;

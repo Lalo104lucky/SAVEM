@@ -71,7 +71,7 @@ function Workers() {
       role: { id_role: 2 },
     },
     {
-      id_user: 2,
+      id_user: 3,
       persons: {
         name: "María",
         lastname: "González",
@@ -82,6 +82,103 @@ function Workers() {
       status: false,
       role: { id_role: 2 },
     },
+    {
+      id_user: 4,
+      persons: {
+        name: "María",
+        lastname: "González",
+        rfc: "MARGO960215ABC",
+        genero: "Femenino",
+      },
+      email: "maria.gonzalez@example.com",
+      status: false,
+      role: { id_role: 2 },
+    },
+    {
+      id_user: 5,
+      persons: {
+        name: "María",
+        lastname: "González",
+        rfc: "MARGO960215ABC",
+        genero: "Femenino",
+      },
+      email: "maria.gonzalez@example.com",
+      status: false,
+      role: { id_role: 2 },
+    },
+    {
+      id_user: 6,
+      persons: {
+        name: "María",
+        lastname: "González",
+        rfc: "MARGO960215ABC",
+        genero: "Femenino",
+      },
+      email: "maria.gonzalez@example.com",
+      status: false,
+      role: { id_role: 2 },
+    },
+    {
+      id_user: 7,
+      persons: {
+        name: "María",
+        lastname: "González",
+        rfc: "MARGO960215ABC",
+        genero: "Femenino",
+      },
+      email: "maria.gonzalez@example.com",
+      status: false,
+      role: { id_role: 2 },
+    },
+    {
+      id_user: 8,
+      persons: {
+        name: "María",
+        lastname: "González",
+        rfc: "MARGO960215ABC",
+        genero: "Femenino",
+      },
+      email: "maria.gonzalez@example.com",
+      status: false,
+      role: { id_role: 2 },
+    },
+    {
+      id_user: 9,
+      persons: {
+        name: "María",
+        lastname: "González",
+        rfc: "MARGO960215ABC",
+        genero: "Femenino",
+      },
+      email: "maria.gonzalez@example.com",
+      status: false,
+      role: { id_role: 2 },
+    },
+    {
+      id_user: 10,
+      persons: {
+        name: "María",
+        lastname: "González",
+        rfc: "MARGO960215ABC",
+        genero: "Femenino",
+      },
+      email: "maria.gonzalez@example.com",
+      status: false,
+      role: { id_role: 2 },
+    },
+    {
+      id_user: 11,
+      persons: {
+        name: "María",
+        lastname: "González",
+        rfc: "MARGO960215ABC",
+        genero: "Femenino",
+      },
+      email: "maria.gonzalez@example.com",
+      status: false,
+      role: { id_role: 2 },
+    },
+
   ];
 
   const getClients = () => {
@@ -292,7 +389,7 @@ function Workers() {
       </div>
 
       <div className='flex flex-col items-center mt-5'>
-        <TableComponent columns={columns} data={clients} PerPage={10} progress={loading} />
+        <TableComponent columns={columns} data={clients} PerPage={8} progress={loading} />
       </div>
       <div className=''>
         <AddWorkerModal

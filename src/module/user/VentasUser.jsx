@@ -35,6 +35,86 @@ const VentasUser = () => {
           { clave: 3, medicamento: 'Amoxicilina 500mg', marca: 'Genérico', cantidad: 3, total: 450 },
       ],
   },
+  {
+    noVenta: 2,
+    fechaVenta: '2024/08/05 03:05:15 PM',
+    total: 1500,
+    tipoPago: 'Tarjeta',
+    vendedor: 'Ana López',
+    productos: [
+        { clave: 3, medicamento: 'Amoxicilina 500mg', marca: 'Genérico', cantidad: 3, total: 450 },
+    ],
+},
+{
+  noVenta: 2,
+  fechaVenta: '2024/08/05 03:05:15 PM',
+  total: 1500,
+  tipoPago: 'Tarjeta',
+  vendedor: 'Ana López',
+  productos: [
+      { clave: 3, medicamento: 'Amoxicilina 500mg', marca: 'Genérico', cantidad: 3, total: 450 },
+  ],
+},
+{
+  noVenta: 2,
+  fechaVenta: '2024/08/05 03:05:15 PM',
+  total: 1500,
+  tipoPago: 'Tarjeta',
+  vendedor: 'Ana López',
+  productos: [
+      { clave: 3, medicamento: 'Amoxicilina 500mg', marca: 'Genérico', cantidad: 3, total: 450 },
+  ],
+},
+{
+  noVenta: 2,
+  fechaVenta: '2024/08/05 03:05:15 PM',
+  total: 1500,
+  tipoPago: 'Tarjeta',
+  vendedor: 'Ana López',
+  productos: [
+      { clave: 3, medicamento: 'Amoxicilina 500mg', marca: 'Genérico', cantidad: 3, total: 450 },
+  ],
+},
+{
+  noVenta: 2,
+  fechaVenta: '2024/08/05 03:05:15 PM',
+  total: 1500,
+  tipoPago: 'Tarjeta',
+  vendedor: 'Ana López',
+  productos: [
+      { clave: 3, medicamento: 'Amoxicilina 500mg', marca: 'Genérico', cantidad: 3, total: 450 },
+  ],
+},
+{
+  noVenta: 2,
+  fechaVenta: '2024/08/05 03:05:15 PM',
+  total: 1500,
+  tipoPago: 'Tarjeta',
+  vendedor: 'Ana López',
+  productos: [
+      { clave: 3, medicamento: 'Amoxicilina 500mg', marca: 'Genérico', cantidad: 3, total: 450 },
+  ],
+},
+{
+  noVenta: 2,
+  fechaVenta: '2024/08/05 03:05:15 PM',
+  total: 1500,
+  tipoPago: 'Tarjeta',
+  vendedor: 'Ana López',
+  productos: [
+      { clave: 3, medicamento: 'Amoxicilina 500mg', marca: 'Genérico', cantidad: 3, total: 450 },
+  ],
+},
+{
+  noVenta: 2,
+  fechaVenta: '2024/08/05 03:05:15 PM',
+  total: 1500,
+  tipoPago: 'Tarjeta',
+  vendedor: 'Ana López',
+  productos: [
+      { clave: 3, medicamento: 'Amoxicilina 500mg', marca: 'Genérico', cantidad: 3, total: 450 },
+  ],
+},
   ];
 
   const getVentas = () => {
@@ -111,7 +191,7 @@ const VentasUser = () => {
         </form>
       </div>
       <div className=''>
-        <TableComponentsVentasUser columns={columns} data={ventas} PerPage={10} progress={loading} />
+        <TableComponentsVentasUser columns={columns} data={ventas} PerPage={5} progress={loading} />
       </div>
       <div>
         <VentsDetailsUser

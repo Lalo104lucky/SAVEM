@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import AuthContext from "../../config/context/auth-context";
-import { Outlet, NavLink, useNavigate } from "react-router-dom";
+import { Outlet, NavLink, useNavigate  } from "react-router-dom";
 import Logo from "../../assets/img/LogoFarmaSN.png";
 import Pencil from "../../assets/pencil.svg";
 import Campana from "../../assets/campana.svg";
@@ -21,6 +21,7 @@ const AdminLayout = () => {
     dispatch({ type: "SIGNOUT" });
     navigate("/");
   };
+
   return (
     <div className="flex">
       <aside className="fixed h-screen text-base top-0 left-0 z-40 flex-1 transition-transform bg-custom-blue w-52">

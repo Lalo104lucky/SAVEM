@@ -34,6 +34,18 @@ html.dark input:-webkit-autofill:focus {
   transition: background-color 5000s ease-in-out 0s;
 }
 
+html.dark body {
+  scrollbar-color: var(--scroll-thumb) var(--scroll-bg); /* Firefox */
+}
+
+html.dark body::-webkit-scrollbar-track {
+  background: var(--scroll-bg); /* Fondo oscuro */
+}
+
+html.dark body::-webkit-scrollbar-thumb {
+  background-color: var(--scroll-thumb); /* Thumb oscuro */
+}
+
 html.dark .custom-Dark {
   color: #000000;
 }
