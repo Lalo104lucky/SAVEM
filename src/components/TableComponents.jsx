@@ -31,7 +31,7 @@ const TableComponents = ({ handleAsignar, columns, data, PerPage }) => {
                             ))}
                         </tr>
                     </thead>
-                    <tbody className="text-left dark:text-gray-200">
+                    <tbody className="text-left dark:text-gray-200 font-quicksand">
                         {currentClientes.map((item, index) => (
                             <tr key={index} className="text-left transition duration-200 border-b border-black ">
                                 {columns.map(({ accessor, render }, columnIndex) => (

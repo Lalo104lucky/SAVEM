@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import TableComponentsVentasUser from '../../components/TableComponentsVentasUser';
 import ShowVentas from '../../assets/showVentas.svg';
+import ShowVentasPro from '../../assets/showVentasPro.svg';
 import VentsDetailsUser from '../../components/VentsDetailsUser';
 import Search from '../../assets/search.svg'
 import SearchPro from '../../assets/searchPro.svg'
@@ -8,8 +9,9 @@ import Sunny from '../../assets/sunny.svg'
 import SunnyP from '../../assets/sunnyP.svg'
 import Moon from '../../assets/moon.svg'
 import MoonP from '../../assets/moonP.svg'
-import Filter from '../../assets/filter.svg'
-import FlechaAbajo from '../../assets/arrow_drop_down.svg'
+import { Datepicker } from 'flowbite';
+import Calendario from '../../assets/calendar_medi.svg'
+import CalendarioPro from '../../assets/calendar_mediPro.svg'
 
 const VentasAdmin = () => {
   const [ventas, setVentas] = useState([]);
@@ -17,10 +19,36 @@ const VentasAdmin = () => {
   const [searchValue, setSearchValue] = useState('');
   const [showModaVentasDetail, setShowModalVentasDitail] = useState(false);
   const [selectedVenta, setSelectedVenta] = useState(null);
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
   const [isChecked, setIsChecked] = useState(
     () => localStorage.getItem('darkMode') === 'true' // Recupera el estado del modo oscuro
   );
-  const isDarkMode = document.documentElement.classList.contains('dark');
+  const [isDarkMode, setIsDarkMode] = useState(() => localStorage.getItem('darkMode') === 'true'); // Nuevo estado
+
+  useEffect(() => {
+    if (isChecked) {
+      document.documentElement.classList.add('dark');
+      setIsDarkMode(true); // Actualiza el estado inmediatamente
+    } else {
+      document.documentElement.classList.remove('dark');
+      setIsDarkMode(false); // Actualiza el estado inmediatamente
+    }
+    localStorage.setItem('darkMode', isChecked);
+  }, [isChecked]);
+
+  useEffect(() => {
+    const startInput = document.getElementById('datepicker-range-start');
+    const endInput = document.getElementById('datepicker-range-end');
+    if (startInput && endInput) {
+      [startInput, endInput].forEach(input => {
+        new Datepicker(input, { format: 'yyyy-mm-dd' }); // Formato compatible
+      });
+    }
+  }, []);
+
+  const handleStartDateChange = (e) => setStartDate(e.target.value);
+  const handleEndDateChange = (e) => setEndDate(e.target.value);
 
   useEffect(() => {
     // Aplica o elimina la clase 'dark' según el estado
@@ -36,6 +64,14 @@ const VentasAdmin = () => {
   const handleChange = () => {
     setIsChecked(!isChecked); // Cambia el estado al hacer toggle
   };
+
+  const filteredVentas = ventas.filter((venta) => {
+    const ventaDate = new Date(venta.fechaVenta.split(' ')[0]);
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    return (!startDate || ventaDate >= start) && (!endDate || ventaDate <= end);
+  });
 
   const mockVentas = [
     {
@@ -105,14 +141,14 @@ const VentasAdmin = () => {
       label: 'Total',
       accessor: 'total',
     }, {
-      label: 'Acciones',
+      label: 'Información',
       render: (row) => (
-        <div className=''>
+        <div className='flex px-4 ml-3'>
           <button
             onClick={() => openModalVentasDetail(row)}
-            className=" border bg-custom-cyan focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg px-2.5 py-1.5  "
+            className="flex justify-center px-3 py-2  text-white custom-blue-cyan hover-bg-customcyan rounded-lg bg-custom-cyanDark hover-bg-custom-cyanDark"
           >
-            <img src={ShowVentas} className='' />
+            <img src={isDarkMode ? ShowVentas : ShowVentas} className='' />
           </button>
         </div>
       ),
@@ -124,24 +160,59 @@ const VentasAdmin = () => {
     <>
       <h2 className='text-3xl text-center font-quicksand'>Ventas
       </h2>
-      <div className='flex justify-center w-full mt-5'>
-        <form className="w-full relative">
-          <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+      <div className="flex items-center justify-between w-full mt-5">
+        <form className="flex-grow w-full  relative">
+          <label htmlFor="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">
+            Search
+          </label>
           <div className="relative">
-            <div className="absolute inset-y-0 start-0 flex items-center ps-2.5 pointer-events-none">
-              <img src={isDarkMode ? SearchPro : Search} alt="Buscar" className='w-6 h-6 ' />
+            <div className="absolute inset-y-0 left-0 flex items-center pl-2.5 pointer-events-none">
+              <img src={isDarkMode ? SearchPro : Search} alt="Buscar" className="w-6 h-6" />
             </div>
-            <input type="search" id="default-search" className="block w-full p-2 ps-10 text-sm text-gray-900 border border-transparent rounded-lg bg-custom-grey dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white input-no-border" placeholder="Buscar" required />
+            <input
+              type="search"
+              id="default-search"
+              className="block w-full p-2 pl-10 text-sm text-gray-900 border border-transparent rounded-lg bg-custom-grey dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white input-no-border"
+              placeholder="Buscar"
+              required
+            />
           </div>
         </form>
 
-        <div className="ml-6 relative inline-block justify-center">
+        <img
+            src={isDarkMode ? CalendarioPro : Calendario}
+            alt=""
+            className="ml-3 w-11"
+          />
+        
+        <div id="date-range-picker" className="flex items-center ml-1 space-x-2">
+          <input
+            id="datepicker-range-start"
+            name="start"
+            type="text"
+            value={startDate}
+            onChange={handleStartDateChange}
+            placeholder="Fecha Inicio"
+            className="font-quicksand bg-custom-grey border border-transparent text-sm rounded-lg w-32 h-9 pl-3 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white input-no-border"
+          />
+          <span className="text-gray-900 dark:text-gray-200">-</span>
+          <input
+            id="datepicker-range-end"
+            name="end"
+            type="text"
+            value={endDate}
+            onChange={handleEndDateChange}
+            placeholder="Fecha Final"
+            className="font-quicksand bg-custom-grey border border-transparent text-sm rounded-lg w-32 h-9 pl-3 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white input-no-border"
+          />
+        </div>
+
+        <div className="ml-6 justify-center ">
           <button
             type="button"
-            className="flex justify-center px-3 py-2 text-white custom-blue-cyan hover-bg-customcyan rounded-lg bg-custom-cyanDark hover-bg-custom-cyanDark"
+            className="flex justify-center px-3 py-2 w-36 text-white custom-blue-cyan hover-bg-customcyan rounded-lg bg-custom-cyanDark hover-bg-custom-cyanDark"
           >
-            <h2 className='text-sm text-center font-quicksand'>Status Financiero
-            </h2>
+            <h2 className="text-sm font-quicksand custom-textblack dark:text-white">Status Financiero</h2>
           </button>
         </div>
 
@@ -149,7 +220,7 @@ const VentasAdmin = () => {
           <img
             src={isChecked ? Sunny : SunnyP}
             alt=""
-            className="mr-3 ml-3 w-11"
+            className="mr-3 ml-3 w-16"
           />
           <input
             type="checkbox"
@@ -157,14 +228,16 @@ const VentasAdmin = () => {
             onChange={handleChange}
             className="sr-only peer"
           />
-          <div className="relative w-20 h-7 bg-gray-200 peer-focus:outline-none dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600"></div>
+          <div style={{ width: '7.5rem' }} className="relative h-7  bg-gray-200 peer-focus:outline-none dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600"></div>
           <img
             src={isChecked ? MoonP : Moon}
             alt=""
-            className="mr-3 ml-3 w-11"
+            className="mr-3 ml-3 w-16"
           />
         </label>
       </div>
+
+
 
       <div className=''>
         <TableComponentsVentasUser columns={columns} data={ventas} PerPage={10} progress={loading} />

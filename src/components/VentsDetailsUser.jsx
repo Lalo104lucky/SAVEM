@@ -1,8 +1,11 @@
 import React from 'react'
 import Equis from '../assets/equis.svg'
+import ClosePro from '../assets/closePro.svg'
+import Close from '../assets/close.svg'
 
 const VentsDetailsUser = ({ showModaVentasDetail, closeModalVentasDetail, venta }) => {
 
+    const isDarkMode = document.documentElement.classList.contains('dark');
     return (
         showModaVentasDetail && (
             <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">

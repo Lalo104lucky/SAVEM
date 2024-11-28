@@ -25,7 +25,7 @@ const TableComponentsVentasUser = ({ columns, data, PerPage }) => {
         <div className='flex justify-center pt-5'>
             <div className="overflow-x-auto relative rounded-lg w-full">
                 <table className="w-full text-black">
-                    <thead className="text-white custom-bg-table ">
+                    <thead className="text-white custom-bg-table dark:bg-blue-800">
                         <tr>
                             {columns.map(({ label }, index) => (
                                 <th key={index} scope="col" className="text-left p-3 border-b border-black capitalize">
@@ -34,7 +34,7 @@ const TableComponentsVentasUser = ({ columns, data, PerPage }) => {
                             ))}
                         </tr>
                     </thead>
-                    <tbody className="text-left">
+                    <tbody className="text-left dark:text-gray-200 font-quicksand">
                         {currentVentas.map((item, index) => (
                             <tr key={index} className="text-left transition duration-200 border-b border-black ">
                                 {columns.map(({ accessor, render }, columnIndex) => (

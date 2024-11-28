@@ -26,23 +26,23 @@ function Workers() {
   const [currentClient, setCurrentClient] = useState(null);
   const [isActive, setIsActive] = useState(false);
   const [isChecked, setIsChecked] = useState(
-    () => localStorage.getItem('darkMode') === 'true' // Recupera el estado del modo oscuro
+    () => localStorage.getItem('darkMode') === 'true' 
   );
-  const isDarkMode = document.documentElement.classList.contains('dark');
+  const [isDarkMode, setIsDarkMode] = useState(() => localStorage.getItem('darkMode') === 'true'); // Nuevo estado
 
   useEffect(() => {
-    // Aplica o elimina la clase 'dark' según el estado
     if (isChecked) {
       document.documentElement.classList.add('dark');
+      setIsDarkMode(true); 
     } else {
       document.documentElement.classList.remove('dark');
+      setIsDarkMode(false); 
     }
-    // Guarda el estado en localStorage
     localStorage.setItem('darkMode', isChecked);
   }, [isChecked]);
 
   const handleChange = () => {
-    setIsChecked(!isChecked); // Cambia el estado al hacer toggle
+    setIsChecked(!isChecked); 
   };
 
   const mockClients = [
