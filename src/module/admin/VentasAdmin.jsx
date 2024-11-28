@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import TableComponentsVentasUser from '../../components/TableComponentsVentasUser';
 import ShowVentas from '../../assets/showVentas.svg';
-import ShowVentasPro from '../../assets/showVentasPro.svg';
+import VentsDetailsStatusFinanciero from '../../components/VentsDetailsStatusFinanciero';
 import VentsDetailsUser from '../../components/VentsDetailsUser';
 import Search from '../../assets/search.svg'
 import SearchPro from '../../assets/searchPro.svg'
@@ -18,6 +18,7 @@ const VentasAdmin = () => {
   const [loading, setLoading] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const [showModaVentasDetail, setShowModalVentasDitail] = useState(false);
+  const [showModaVentasStatus, setShowModalVentasStatus] = useState(false);
   const [selectedVenta, setSelectedVenta] = useState(null);
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
@@ -83,6 +84,20 @@ const VentasAdmin = () => {
       productos: [
         { clave: 1, medicamento: 'Paracetamol 500mg', marca: 'Genérico', cantidad: 2, total: 146 },
         { clave: 2, medicamento: 'Ibuprofeno 200mg', marca: 'Genérico', cantidad: 1, total: 204 },
+        { clave: 3, medicamento: 'Ibuprofeno 200mg', marca: 'Genérico', cantidad: 1, total: 204 },
+        { clave: 4, medicamento: 'Ibuprofeno 200mg', marca: 'Genérico', cantidad: 1, total: 204 },
+        { clave: 5, medicamento: 'Ibuprofeno 200mg', marca: 'Genérico', cantidad: 1, total: 204 },
+        { clave: 6, medicamento: 'Ibuprofeno 200mg', marca: 'Genérico', cantidad: 1, total: 204 },
+        { clave: 7, medicamento: 'Ibuprofeno 200mg', marca: 'Genérico', cantidad: 1, total: 204 },
+        { clave: 8, medicamento: 'Ibuprofeno 200mg', marca: 'Genérico', cantidad: 1, total: 204 },
+        { clave: 9, medicamento: 'Ibuprofeno 200mg', marca: 'Genérico', cantidad: 1, total: 204 },
+        { clave: 10, medicamento: 'Ibuprofeno 200mg', marca: 'Genérico', cantidad: 1, total: 204 },
+        { clave: 11, medicamento: 'Ibuprofeno 200mg', marca: 'Genérico', cantidad: 1, total: 204 },
+        { clave: 12, medicamento: 'Ibuprofeno 200mg', marca: 'Genérico', cantidad: 1, total: 204 },
+        { clave: 13, medicamento: 'Ibuprofeno 200mg', marca: 'Genérico', cantidad: 1, total: 204 },
+        { clave: 14, medicamento: 'Ibuprofeno 200mg', marca: 'Genérico', cantidad: 1, total: 204 },
+        { clave: 15, medicamento: 'Ibuprofeno 200mg', marca: 'Genérico', cantidad: 1, total: 204 },
+        { clave: 16, medicamento: 'Ibuprofeno 200mg', marca: 'Genérico', cantidad: 1, total: 204 },
       ],
     },
     {
@@ -128,18 +143,31 @@ const VentasAdmin = () => {
     setShowModalVentasDitail(false);
   };
 
+  // Aquí ya se meterían los respectivos datos pero no hay jejeje
+  const openModalVentasDetailsStatus = () => {
+    setShowModalVentasStatus(true);
+  };
+
+  const closeModalVentsDetailsStatus = () => {
+    setSelectedVenta(null);
+    setShowModalVentasStatus(false);
+  };
+
   const columns = [
     {
       label: 'No. Venta',
       accessor: 'noVenta',
+      render: (row) => <span className="font-quicksand">{row.noVenta}</span>,
     },
     {
       label: 'Fecha de Venta',
       accessor: 'fechaVenta',
+      render: (row) => <span className="font-quicksand">{row.fechaVenta}</span>,
     },
     {
       label: 'Total',
       accessor: 'total',
+      render: (row) => <span className="font-quicksand">{row.total}</span>,
     }, {
       label: 'Información',
       render: (row) => (
@@ -148,7 +176,7 @@ const VentasAdmin = () => {
             onClick={() => openModalVentasDetail(row)}
             className="flex justify-center px-3 py-2  text-white custom-blue-cyan hover-bg-customcyan rounded-lg bg-custom-cyanDark hover-bg-custom-cyanDark"
           >
-            <img src={isDarkMode ? ShowVentas : ShowVentas} className='' />
+            <img src={isDarkMode ? ShowVentas : ShowVentas} className='font-quicksand' />
           </button>
         </div>
       ),
@@ -185,7 +213,7 @@ const VentasAdmin = () => {
             className="ml-3 w-11"
           />
         
-        <div id="date-range-picker" className="flex items-center ml-1 space-x-2">
+        <div id="date-range-picker" className="flex items-center ml-3 space-x-2">
           <input
             id="datepicker-range-start"
             name="start"
@@ -211,6 +239,7 @@ const VentasAdmin = () => {
           <button
             type="button"
             className="flex justify-center px-3 py-2 w-36 text-white custom-blue-cyan hover-bg-customcyan rounded-lg bg-custom-cyanDark hover-bg-custom-cyanDark"
+            onClick={openModalVentasDetailsStatus}
           >
             <h2 className="text-sm font-quicksand custom-textblack dark:text-white">Status Financiero</h2>
           </button>
@@ -246,6 +275,13 @@ const VentasAdmin = () => {
         <VentsDetailsUser
           showModaVentasDetail={showModaVentasDetail}
           closeModalVentasDetail={closeModalVentasDetail}
+          venta={selectedVenta}
+        />
+      </div>
+      <div>
+        <VentsDetailsStatusFinanciero
+          showModaVentasStatus={showModaVentasStatus}
+          closeModalVentsDetailsStatus={closeModalVentsDetailsStatus}
           venta={selectedVenta}
         />
       </div>
