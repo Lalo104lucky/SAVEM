@@ -9,7 +9,6 @@ import Pildora from "../../assets/pill.svg";
 import Ventas from "../../assets/sales.svg";
 import Salir from "../../assets/logout.svg";
 import Profile from '../../components/Profile';
-import { Button } from 'flowbite-react';
 
 const AdminLayout = () => {
   const { dispatch } = useContext(AuthContext);

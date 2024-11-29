@@ -7,7 +7,7 @@ const VentsDetailsUser = ({ showModaVentasDetail, closeModalVentasDetail, venta 
     const isDarkMode = document.documentElement.classList.contains('dark');
     return (
         showModaVentasDetail && (
-            <div className="fixed inset-0 z-40 flex items-center justify-center"
+            <div className="fixed inset-0 detalles-de-ventas flex items-center justify-center"
                 style={{
                     backgroundColor: "rgba(0, 0, 0, 0.5)", // Fondo negro con opacidad del 50%
                 }}
@@ -15,7 +15,7 @@ const VentsDetailsUser = ({ showModaVentasDetail, closeModalVentasDetail, venta 
                 <div className="relative bg-white rounded-lg shadow-lg dark:bg-gray-900 w-full max-w-4xl max-h-[90vh] p-4 overflow-y-auto"
                     style={{
                         maxHeight: "80vh", // Altura máxima del modal
-                        overflowY: "auto", // Scroll vertical cuando el contenido exceda la altura
+                        overflowY: "auto",
                     }}
                 >
                     <div className="px-6 py-4">

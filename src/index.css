@@ -86,6 +86,10 @@ html.dark .custom-Dark {
   background-color: #3F54D1;
 }
 
+.hover-bg-custom-blueVenta:hover {
+  background-color: #2e3e9c;
+}
+
 .bg-custom-bluepoint {
   background-color: #5280E2;
 }
@@ -348,4 +352,12 @@ tbody tr:hover {
   background-color: #FF5733 !important; /* El color que desees */
   border: none;
   color: white;
+}
+
+.p-sidebar {
+  z-index: 1000 !important;
+}
+
+.detalles-de-ventas {
+  z-index: 1050 !important;
 }

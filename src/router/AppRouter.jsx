@@ -4,14 +4,12 @@ import SignInPage from "../module/auth/SignInPage";
 import AuthContext from "../config/context/auth-context";
 import AdminLayout from "../module/admin/AdminLayout";
 import UserLayout from "../module/user/UserLayout";
-import HomeUser from "../module/user/HomeUser";
 import ForgotPasswordPage from "../module/auth/ForgotPasswordPage";
 import ResetPasswordPage from "../module/auth/ResetPasswordPage";
 import Workers from "../module/admin/Workers";
 import MedicamentosAdmin from "../module/admin/MedicamantosAdmin";
 import VentasAdmin from "../module/admin/VentasAdmin";
 import Notifications from "../module/admin/Notifications";
-import ProfileUser from "../module/user/ProfileUser";
 import VentasUser from "../module/user/VentasUser";
 import MedicamentosUser from "../module/user/MedicamentosUser";
 
@@ -32,8 +30,6 @@ const AppRouter = () => {
                         </Route>
                     ) : (
                         <Route path="*" element={<UserLayout/>}>
-                            <Route path="homeUser" element={<HomeUser/>} />
-                            <Route path="profile" element={<ProfileUser/>} />
                             <Route path="ventas" element={<VentasUser/>} />
                             <Route path="medicamentos" element={<MedicamentosUser/>} />
                         </Route>

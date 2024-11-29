@@ -9,6 +9,7 @@ function OffCanvas({
     setShowOffcanvas,
     selectedMedicamento,
     refreshInventary,
+    role
 }) {
     const isDarkMode = document.documentElement.classList.contains('dark');
     const [showEditCutModal, setShowEditCutModal] = useState(false);
@@ -25,15 +26,16 @@ function OffCanvas({
         <>
             {showOffcanvas && (
                 <div
-                    className="fixed inset-0 z-40 flex items-center justify-center"
+                    className={`fixed inset-0 flex items-center justify-center ${role === 'USER' ? 'detalles-de-ventas' : 'z-40'
+                        }`}
                     style={{
                         backgroundColor: "rgba(0, 0, 0, 0.5)",
                     }}
                 ></div>
             )}
             <div
-                className={`fixed top-0 right-0 z-40 h-screen p-6 overflow-y-auto bg-white w-80 dark:bg-gray-900 transition-transform duration-300  ${showOffcanvas ? 'translate-x-0' : 'translate-x-full'
-                    }`}
+                className={`fixed top-0 right-0 h-screen p-6 overflow-y-auto bg-white w-80 dark:bg-gray-900 transition-transform duration-300  ${showOffcanvas ? 'translate-x-0' : 'translate-x-full'
+                    } ${role === 'USER' ? 'detalles-de-ventas' : 'z-40'}`}
                 tabIndex="-1"
                 aria-labelledby="drawer-right-label"
                 role="dialog"
@@ -122,12 +124,14 @@ function OffCanvas({
                             >
                                 Regresar
                             </button>
-                            <button
-                                onClick={handleEditCutModalToggle}
-                                className="text-black bg-custom-edit hover-bg-custom-edit focus:ring-1 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-5 py-2.5 bg-custom-editDark hover-bg-custom-editDark custom-Dark"
-                            >
-                                Editar
-                            </button>
+                            {role === 'ADMIN' && (
+                                <button
+                                    onClick={handleEditCutModalToggle}
+                                    className="text-black bg-custom-edit hover-bg-custom-edit focus:ring-1 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-5 py-2.5 bg-custom-editDark hover-bg-custom-editDark custom-Dark"
+                                >
+                                    Editar
+                                </button>
+                            )}
                         </div>
 
                     </>

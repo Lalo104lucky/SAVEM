@@ -40,6 +40,7 @@ const MedicamantosAdmin = () => {
   const [loading, setLoading] = useState(true);
   const isCutSelected = selectedMedicamento !== null;
   const [selectedFilter, setSelectedFilter] = useState(null);
+  const userRole = "ADMIN";
 
   const [isChecked, setIsChecked] = useState(
     () => localStorage.getItem('darkMode') === 'true' // Recupera el estado del modo oscuro
@@ -282,6 +283,7 @@ const MedicamantosAdmin = () => {
         showOffcanvas={showOffcanvas}
         setShowOffcanvas={setShowOffcanvas}
         selectedMedicamento={selectedMedicamento}
+        role={userRole}
       />
     </>
   )

@@ -389,7 +389,7 @@ function Workers() {
       </div>
 
       <div className='flex flex-col items-center mt-5'>
-        <TableComponent columns={columns} data={clients} PerPage={8} progress={loading} />
+        <TableComponent columns={columns} data={clients} PerPage={7} progress={loading} />
       </div>
       <div className=''>
         <AddWorkerModal

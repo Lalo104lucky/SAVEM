@@ -269,7 +269,7 @@ const VentasAdmin = () => {
 
 
       <div className=''>
-        <TableComponentsVentasUser columns={columns} data={ventas} PerPage={10} progress={loading} />
+        <TableComponentsVentasUser columns={columns} data={ventas} PerPage={7} progress={loading} />
       </div>
       <div>
         <VentsDetailsUser
