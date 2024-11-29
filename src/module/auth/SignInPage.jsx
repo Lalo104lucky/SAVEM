@@ -36,7 +36,7 @@ const SignInPage = () => {
                 //const response = await AxiosClient.post("/auth/signin", values);
                 const response = {
                     data: {
-                        roles: { role: "ADMIN" }, // Cambia el rol aquí
+                        roles: { role: "USER" }, // Cambia el rol aquí
                         user: { id: 1, email: values.email, name: "ADMIN_ROLE" }
                     }
                 };
