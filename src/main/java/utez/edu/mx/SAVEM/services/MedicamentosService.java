@@ -1,5 +1,6 @@
 package utez.edu.mx.SAVEM.services;
 
+import org.hibernate.validator.constraints.CreditCardNumber;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -91,6 +92,16 @@ public class MedicamentosService {
         foundMedicamento.setInventario(foundInventario);
         medicamentosDao.saveAndFlush(foundMedicamento);
         return new ResponseEntity<>(new ApiResponse(foundMedicamento, HttpStatus.OK), HttpStatus.OK);
+    }
+
+    @Transactional(rollbackFor = {Exception.class})
+    public ResponseEntity<ApiResponse> delete(Long id){
+        Optional<Medicamentos>  foundmedicamento = medicamentosDao.findById(id);
+        if (foundmedicamento.isEmpty()) {
+            return new ResponseEntity<>(new ApiResponse(HttpStatus.NOT_FOUND, true, "MedicamentoNotfound"), HttpStatus.NOT_FOUND);
+        }
+        medicamentosDao.deleteById(id);
+        return new ResponseEntity<>(new ApiResponse(HttpStatus.OK, false, "MedicamentoEliminado"), HttpStatus.OK);
     }
 }
 

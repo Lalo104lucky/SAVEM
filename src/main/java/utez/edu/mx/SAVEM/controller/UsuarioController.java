@@ -1,13 +1,17 @@
 package utez.edu.mx.SAVEM.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import utez.edu.mx.SAVEM.config.ApiResponse;
 import utez.edu.mx.SAVEM.model.dto.UsuarioDto;
+import utez.edu.mx.SAVEM.services.IEmailService;
 import utez.edu.mx.SAVEM.services.UsuarioService;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/savem/usuario")
@@ -17,6 +21,7 @@ public class UsuarioController {
     private final UsuarioService usuarioService;
     private final PasswordEncoder passwordEncoder;
 
+    private String tokenComp;
 
     @GetMapping("/")
     public ResponseEntity<ApiResponse> getAll(){
@@ -54,4 +59,7 @@ public class UsuarioController {
     public ResponseEntity<ApiResponse> changeContrasena(@PathVariable("id") Long id, @RequestBody UsuarioDto usuarioDto){
         return usuarioService.changeContrasena(id, usuarioDto, passwordEncoder);
     }
+
+
+
 }

@@ -1,8 +1,10 @@
 package utez.edu.mx.SAVEM.services;
 
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +26,7 @@ public class UsuarioService {
     private final UsuarioDao repository;
     private final RolDao rolDao;
     private final PersonaDao personaDao;
+
 
     public UsuarioService(UsuarioDao repository, RolDao rolDao, PersonaDao personaDao) {
         this.repository = repository;
@@ -119,5 +122,4 @@ public class UsuarioService {
     public Optional<Usuario> findUserByCorreo(String correo) {
         return repository.findUsuarioByCorreo(correo);
     }
-
 }
