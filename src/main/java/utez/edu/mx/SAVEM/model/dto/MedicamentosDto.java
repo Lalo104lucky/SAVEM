@@ -24,6 +24,6 @@ public class MedicamentosDto {
     private String imagen;
     private Long id_categoria;
     private Long id_inventario;
-    private boolean prescripcion;
+    private Boolean prescripcion;
     private Long cantidadvendida;
 }

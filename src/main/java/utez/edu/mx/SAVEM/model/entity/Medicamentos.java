@@ -50,7 +50,7 @@ public class Medicamentos {
     private String imagen;
 
     @Column(name = "prescripcion", nullable = false)
-    private boolean prescripcion;
+    private Boolean prescripcion;
 
     @Column(name = "cantidadvendidad", nullable = false)
     private Long cantidadvendida;

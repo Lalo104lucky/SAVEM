@@ -60,7 +60,7 @@ public class MedicamentosService {
         medicamento.setPrecio(medicamentosDto.getPrecio());
         medicamento.setDescripcion(medicamentosDto.getDescripcion());
         medicamento.setImagen(medicamentosDto.getImagen());
-        medicamento.setPrescripcion(medicamento.isPrescripcion());
+        medicamento.setPrescripcion(medicamentosDto.getPrescripcion());
         medicamento.setCategoria(foundCategoria);
         medicamento.setInventario(foundInventario);
         medicamento.setCantidadvendida(cantidadV);
@@ -86,6 +86,7 @@ public class MedicamentosService {
         foundMedicamento.setCodigo(medicamentosDto.getCodigo());
         foundMedicamento.setMarca(medicamentosDto.getMarca());
         foundMedicamento.setPrecio(medicamentosDto.getPrecio());
+        foundMedicamento.setPrescripcion(medicamentosDto.getPrescripcion());
         foundMedicamento.setDescripcion(medicamentosDto.getDescripcion());
         foundMedicamento.setImagen(medicamentosDto.getImagen());
         foundMedicamento.setCategoria(foundCategoria);
